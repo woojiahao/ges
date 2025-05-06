@@ -3,69 +3,10 @@ import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMe
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { SurveyEntry } from "@/survey/entry";
-import { ColumnDef, ColumnFiltersState, FilterFn, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, Table as ReactTable, Row, useReactTable, VisibilityState } from "@tanstack/react-table";
+import { flexRender, Table as ReactTable } from "@tanstack/react-table";
 import { Funnel } from "lucide-react";
-import React, { Key, useCallback, useEffect, useMemo, useState } from "react";
+import React, { Key, useCallback, useEffect, useState } from "react";
 import { FaEye } from "react-icons/fa6";
-
-const multiSelectFilterFn: FilterFn<SurveyEntry> = <TFilterType,>(row: Row<SurveyEntry>, columnId: string, filterValue: TFilterType[]): boolean => {
-  return filterValue.includes(row.getValue(columnId));
-}
-
-const columns: ColumnDef<SurveyEntry>[] = [
-  {
-    accessorKey: "year",
-    header: "Year",
-    filterFn: multiSelectFilterFn,
-  },
-  {
-    accessorKey: "university",
-    header: "University",
-    filterFn: multiSelectFilterFn,
-  },
-  {
-    accessorKey: "school",
-    header: "School",
-    filterFn: multiSelectFilterFn,
-  },
-  {
-    accessorKey: "degree",
-    header: "Degree",
-    filterFn: multiSelectFilterFn,
-  },
-  {
-    accessorKey: "employment_rate_overall",
-    header: "Overall Employment Rate (%)",
-  },
-  {
-    accessorKey: "employment_rate_ft_perm",
-    header: "Full-Time Permanent Employment Rate (%)",
-  },
-  {
-    accessorKey: "basic_monthly_mean",
-    header: "Basic Monthly Salary - Mean (S$)",
-  },
-  {
-    accessorKey: "basic_monthly_median",
-    header: "Basic Monthly Salary - Median (S$)",
-  },
-  {
-    accessorKey: "gross_monthly_mean",
-    header: "Gross Monthly Salary - Mean (S$)",
-  },
-  {
-    accessorKey: "gross_monthly_median",
-    header: "Gross Monthly Salary - Median (S$)",
-  },
-  {
-    accessorKey: "gross_mthly_25_percentile",
-    header: "Gross Monthly Salary - 25th Percentile (S$)",
-  },
-  {
-    accessorKey: "gross_mthly_75_percentile",
-    header: "Gross Monthly Salary - 75th Percentile (S$)",
-  },
-]
 
 function ColumnVisibilityDropdown({ table }: { table: ReactTable<SurveyEntry> }) {
   return (
@@ -196,73 +137,20 @@ function YearRangeInput({ table, years }: { table: ReactTable<SurveyEntry>, year
 }
 
 interface SurveyDataTableProps {
-  data: SurveyEntry[];
+  table: ReactTable<SurveyEntry>;
+  years: number[];
+  universities: string[];
+  schools: string[];
+  degrees: string[];
 }
 
 export function SurveyDataTable({
-  data
+  table,
+  years,
+  universities,
+  schools,
+  degrees,
 }: SurveyDataTableProps) {
-  const years = useMemo(() => {
-    const distinctYears = new Set(data.map(entry => entry.year));
-    const sortedYears = Array.from(distinctYears).sort();
-    return sortedYears;
-  }, [data]);
-
-  const universities = useMemo(() => {
-    const distinctUniversities = new Set(data.map(entry => entry.university));
-    const sortedUniversities = Array.from(distinctUniversities).sort();
-    return sortedUniversities;
-  }, [data]);
-
-  const schools = useMemo(() => {
-    const distinctSchools = new Set(data.map(entry => entry.school));
-    const sortedSchools = Array.from(distinctSchools).sort();
-    return sortedSchools;
-  }, [data]);
-
-  const degrees = useMemo(() => {
-    const distinctDegrees = new Set(data.map(entry => entry.degree));
-    const sortedDegrees = Array.from(distinctDegrees).sort();
-    return sortedDegrees;
-  }, [data]);
-
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([
-    {
-      id: "year",
-      value: years,
-    },
-    {
-      id: "university",
-      value: universities,
-    },
-    {
-      id: "school",
-      value: schools,
-    },
-    {
-      id: "degree",
-      value: degrees,
-    },
-  ]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
-
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
-    filterFns: {
-      multiSelectFilterFn,
-    },
-    state: {
-      columnFilters,
-      columnVisibility
-    }
-  })
-
   return (
     <div>
       <div className="flex justify-between items-center py-4">
@@ -310,7 +198,7 @@ export function SurveyDataTable({
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell colSpan={table.getAllColumns().length} className="h-24 text-center">
                   No results.
                 </TableCell>
               </TableRow>

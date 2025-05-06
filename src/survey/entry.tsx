@@ -1,4 +1,4 @@
-export interface SurveyEntry {
+export type SurveyEntry = {
   year: number;
   university: string;
   school: string;
