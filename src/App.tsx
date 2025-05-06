@@ -1,15 +1,10 @@
-import { OverallEmploymentRateChart } from "@/components/charts/line-chart";
+import { ChartBuilder } from "@/components/charts/chart-builder";
+import { SurveyDataTable } from "@/components/survey/survey-data-table";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import survey from "@/data/survey_2024.json";
-import { SurveyDataTable } from "@/components/survey/data-table";
-import { type SurveyEntry } from "@/data/survey-entry";
-import { useMemo } from "react";
 import { FaTriangleExclamation } from "react-icons/fa6";
 
 function App() {
-  const surveyData: SurveyEntry[] = useMemo(() => survey.map(entry => entry as SurveyEntry), []);
-
   return (
     <div className="container my-12 mx-auto flex flex-col gap-4">
       <div>
@@ -29,10 +24,10 @@ function App() {
           <TabsTrigger value="visualization">Visualization</TabsTrigger>
         </TabsList>
         <TabsContent value="data">
-          <SurveyDataTable surveyData={surveyData} />
+          <SurveyDataTable />
         </TabsContent>
         <TabsContent value="visualization">
-          <OverallEmploymentRateChart years={[]} />
+          <ChartBuilder />
         </TabsContent>
       </Tabs>
       <footer className="text-center">
