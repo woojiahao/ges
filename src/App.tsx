@@ -2,8 +2,8 @@ import { OverallEmploymentRateChart } from "@/components/charts/line-chart";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import survey from "@/data/survey_2024.json";
-import { SurveyDataTable } from "@/survey/data-table";
-import { type SurveyEntry } from "@/survey/entry";
+import { SurveyDataTable } from "@/components/survey/data-table";
+import { type SurveyEntry } from "@/components/survey/entry";
 import { useMemo } from "react";
 import { FaTriangleExclamation } from "react-icons/fa6";
 
