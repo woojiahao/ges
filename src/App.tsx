@@ -2,8 +2,9 @@ import survey from "@/data/survey_2024.json"
 import { useMemo } from "react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { FaTriangleExclamation } from "react-icons/fa6";
-import { columns, SurveyEntry } from "@/survey/columns";
-import { DataTable } from "./components/ui/data-table";
+import { SurveyEntry } from "@/survey/entry";
+import { SurveyDataTable } from "@/survey/data-table";
+import { Component } from "@/components/charts/line-chart";
 
 function App() {
   const surveyData: SurveyEntry[] = useMemo(() => survey.map(entry => entry as SurveyEntry), []);
@@ -31,13 +32,8 @@ function App() {
     return sortedDegrees;
   }, [surveyData]);
 
-  console.log(years)
-  console.log(universities)
-  console.log(schools)
-  console.log(degree)
-
   return (
-    <div className="container my-12 mx-auto">
+    <div className="container my-12 mx-auto flex flex-col gap-8">
       <Alert>
         <FaTriangleExclamation />
         <AlertTitle>Heads up!</AlertTitle>
@@ -46,7 +42,7 @@ function App() {
         </AlertDescription>
       </Alert>
 
-      <DataTable columns={columns} data={surveyData} />
+      <SurveyDataTable data={surveyData} />
     </div>
   )
 }
