@@ -3,7 +3,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import survey from "@/data/survey_2024.json";
 import { SurveyDataTable } from "@/components/survey/data-table";
-import { type SurveyEntry } from "@/components/survey/entry";
+import { type SurveyEntry } from "@/data/survey-entry";
 import { useMemo } from "react";
 import { FaTriangleExclamation } from "react-icons/fa6";
 
