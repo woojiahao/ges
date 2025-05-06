@@ -6,41 +6,12 @@ import { YearRangeInput } from "@/components/survey/year-range-input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { degrees, schools, surveyData, universities, years } from "@/data/survey-data";
 import { SurveyEntry } from "@/data/survey-entry";
 import { ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, useReactTable, VisibilityState } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
-interface SurveyDataTableProps {
-  surveyData: SurveyEntry[]
-}
-
-export function SurveyDataTable({
-  surveyData
-}: SurveyDataTableProps) {
-  const years = useMemo(() => {
-    const distinctYears = new Set(surveyData.map(entry => entry.year));
-    const sortedYears = Array.from(distinctYears).sort();
-    return sortedYears;
-  }, [surveyData]);
-
-  const universities = useMemo(() => {
-    const distinctUniversities = new Set(surveyData.map(entry => entry.university));
-    const sortedUniversities = Array.from(distinctUniversities).sort();
-    return sortedUniversities;
-  }, [surveyData]);
-
-  const schools = useMemo(() => {
-    const distinctSchools = new Set(surveyData.map(entry => entry.school));
-    const sortedSchools = Array.from(distinctSchools).sort();
-    return sortedSchools;
-  }, [surveyData]);
-
-  const degrees = useMemo(() => {
-    const distinctDegrees = new Set(surveyData.map(entry => entry.degree));
-    const sortedDegrees = Array.from(distinctDegrees).sort();
-    return sortedDegrees;
-  }, [surveyData]);
-
+export function SurveyDataTable() {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([
     {
       id: "year",
