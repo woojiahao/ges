@@ -10,19 +10,19 @@ export const years = (() => {
 })();
 
 export const universities = (() => {
-  const distinctUniversities = new Set(surveyData.map(entry => entry.university));
+  const distinctUniversities = new Set(surveyData.map(entry => entry.university.replaceAll("\n", " ")));
   const sortedUniversities = Array.from(distinctUniversities).sort();
   return sortedUniversities;
 })();
 
 export const schools = (() => {
-  const distinctSchools = new Set(surveyData.map(entry => entry.school));
+  const distinctSchools = new Set(surveyData.map(entry => entry.school.replaceAll("\n", " ")));
   const sortedSchools = Array.from(distinctSchools).sort();
   return sortedSchools;
 })();
 
 export const degrees = (() => {
-  const distinctDegrees = new Set(surveyData.map(entry => entry.degree));
+  const distinctDegrees = new Set(surveyData.map(entry => entry.degree.replaceAll("\n", " ")));
   const sortedDegrees = Array.from(distinctDegrees).sort();
   return sortedDegrees;
 })();

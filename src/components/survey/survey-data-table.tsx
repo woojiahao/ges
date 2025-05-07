@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { degrees, schools, surveyData, universities, years } from "@/data/survey-data";
 import { SurveyEntry } from "@/data/survey-entry";
-import { ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, useReactTable, VisibilityState } from "@tanstack/react-table";
+import { ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table";
 import { useState } from "react";
 
 export function SurveyDataTable() {
@@ -31,6 +31,7 @@ export function SurveyDataTable() {
     },
   ]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [sorting, setSorting] = useState<SortingState>([])
 
   const table = useReactTable<SurveyEntry>({
     data: surveyData,
@@ -40,12 +41,15 @@ export function SurveyDataTable() {
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
     filterFns: {
       multiSelectFilterFn,
     },
     state: {
       columnFilters,
-      columnVisibility
+      columnVisibility,
+      sorting,
     }
   })
 

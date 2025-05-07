@@ -1,12 +1,26 @@
 import { multiSelectFilterFn } from "@/components/survey/filters";
+import { Button } from "@/components/ui/button";
 import { SurveyEntry } from "@/data/survey-entry";
 import { ColumnDef } from "@tanstack/react-table";
+import { ArrowUpDown } from "lucide-react";
 
 export const columns: ColumnDef<SurveyEntry>[] = [
   {
     accessorKey: "year",
-    header: "Year",
     filterFn: multiSelectFilterFn,
+    header: ({ column }) => {
+      return (
+        <div className="flex items-center">
+          <span>Year</span>
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            <ArrowUpDown />
+          </Button>
+        </div>
+      )
+    },
   },
   {
     accessorKey: "university",

@@ -56,7 +56,7 @@ export function YearRangeInput({ table, years }: YearRangeInputProps) {
   }, [table, startYear, endYear])
 
   return (
-    <div className="flex flex-row items-center gap-4">
+    <div className="flex flex-row items-center gap-2">
       <YearSelect placeholder="Start year" value={startYear} setValue={setStartYear} all={years} />
       <p>to</p>
       <YearSelect placeholder="End year" value={endYear} setValue={setEndYear} minimum={startYear} all={years} />

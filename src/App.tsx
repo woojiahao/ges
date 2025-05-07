@@ -31,7 +31,7 @@ function App() {
         </TabsContent>
       </Tabs>
       <footer className="text-center">
-        <span className="italic">ges</span> was created by <a className="underline" href="https://blog.woojiahao.com">Jiahao</a> for the sake of playing with <a className="underline" href="https://ui.shadcn.com/">shadcn</a>. Check out the repository <a className="underline" href="https://github.com/woojiahao/ges">here</a>.
+        <span className="italic">ges</span> was created with ❤️ by <a className="underline" href="https://blog.woojiahao.com">Jiahao</a> for the sake of playing with <a className="underline" href="https://ui.shadcn.com/">shadcn</a>. Check out the repository <a className="underline" href="https://github.com/woojiahao/ges">here</a>.
       </footer>
     </div>
   )

@@ -1,4 +1,4 @@
-import { GESChart } from "@/components/charts/line-chart";
+import { GESChart } from "@/components/charts/ges-chart";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { SURVEY_METRICS } from "@/data/survey-entry";
 import { useCallback, useState } from "react";
