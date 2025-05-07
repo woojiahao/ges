@@ -1,13 +1,10 @@
-import { TrendingUp } from "lucide-react"
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts"
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
 
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
-  CardTitle,
+  CardTitle
 } from "@/components/ui/card"
 import {
   ChartConfig,
@@ -15,36 +12,58 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import "@/index.css"
-import { Button } from "../ui/button"
-
-const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
-]
+import { surveyData } from "@/data/survey-data"
+import { SURVEY_METRICS, SurveyEntry } from "@/data/survey-entry"
+import { useCallback, useMemo } from "react"
 
 const chartConfig = {
   desktop: {
     label: "Desktop",
     color: "hsl(var(--chart-1))",
   },
+  mobile: {
+    label: "Mobile",
+    color: "hsl(var(--chart-5))",
+  },
 } satisfies ChartConfig
 
-export function OverallEmploymentRateChart({
-  years
-}: {
-  years: number[],
-}) {
+interface GESChartProps {
+  metric: typeof SURVEY_METRICS;
+  university: string;
+  degree: string;
+}
+
+export function GESChart({
+  metric,
+  university,
+  degree,
+}: GESChartProps) {
+  const getMetricData = useCallback((entry: SurveyEntry) => {
+    const value = entry[metric as unknown as keyof SurveyEntry]
+    if (typeof value === "string" && value.endsWith("%")) {
+      return parseInt(value.substring(0, value.length - 1))
+    }
+    return value as number
+  }, [metric])
+
+  const chartData = useMemo(() => {
+    const filteredData = surveyData.filter((entry) => {
+      return entry.university === university && entry.degree === degree
+    }).map((entry) => {
+      return {
+        year: entry.year,
+        data: getMetricData(entry),
+      }
+    });
+    return filteredData
+  }, [degree, getMetricData, university])
+  console.log(chartData)
+  console.log(Math.min(...chartData.map(d => d.data)) - 15)
+
   return (
-    <Card className="w-1/2">
+    <Card className="w-full max-h-1/3">
       <CardHeader>
-        <CardTitle>Overall Employment Rate (%)</CardTitle>
-        <CardDescription>Organized by </CardDescription>
+        <CardTitle></CardTitle>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -57,19 +76,26 @@ export function OverallEmploymentRateChart({
             }}
           >
             <CartesianGrid vertical={false} />
+            <YAxis
+              dataKey="data"
+              tickLine={false}
+              axisLine={true}
+              tickMargin={8}
+              domain={[Math.max(0, Math.min(...chartData.map(d => d.data)) - 5), Math.min(100, Math.max(...chartData.map(d => d.data)) + 5)]}
+            />
             <XAxis
               dataKey="year"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 3)}
+              label="Year"
+              tickLine={true}
+              axisLine={true}
+              tickMargin={0}
             />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
             <Line
-              dataKey="desktop"
+              dataKey="data"
               type="linear"
               stroke="var(--color-desktop)"
               strokeWidth={2}

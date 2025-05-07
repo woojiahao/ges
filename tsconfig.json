@@ -9,6 +9,11 @@
     }
   ],
   "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "lib": [
+      "ESNext"
+    ],
     "baseUrl": ".",
     "paths": {
       "@/*": [
