@@ -19,7 +19,7 @@ export function ChartBuilder() {
       <CardHeader>
         <CardTitle>Chart Builder</CardTitle>
         <CardDescription>
-          Plot trends of certain statistics from the GES. Include at least one of University or Degree
+          Plot trends of certain statistics from the GES
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-8">
